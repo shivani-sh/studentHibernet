@@ -191,7 +191,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/display.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
+            <state>
               <caret line="19" column="51" lean-forward="true" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -239,6 +239,9 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -296,6 +299,7 @@
     <option name="width" value="673" />
     <option name="height" value="739" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -518,12 +522,12 @@
       <workItem from="1543467648021" duration="23729000" />
       <workItem from="1543554252676" duration="1187000" />
       <workItem from="1543555523838" duration="23729000" />
-      <workItem from="1543640896405" duration="3445000" />
+      <workItem from="1543640896405" duration="4040000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62604000" />
+    <option name="totallyTimeSpent" value="63199000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
@@ -544,7 +548,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Spring" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32913387" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.8913386" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" weight="0.0015748031" />
       <window_info anchor="bottom" id="Application Servers" order="13" weight="0.32913387" />
@@ -732,7 +736,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/display.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
+        <state>
           <caret line="19" column="51" lean-forward="true" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
