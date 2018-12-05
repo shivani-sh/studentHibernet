@@ -1,9 +1,15 @@
 package com.dz.model;
 
+import javax.persistence.*;
+
 /**
  * student getter setter method
  */
+@Entity()
+@Table(name = "")
 public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     private int age;

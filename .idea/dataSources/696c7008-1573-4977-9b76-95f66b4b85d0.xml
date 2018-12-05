@@ -1188,6 +1188,7 @@
     <column id="303" parent="283" name="AGE">
       <Position>3</Position>
       <DataType>int(12)|0s</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <key id="304" parent="283" name="PRIMARY">

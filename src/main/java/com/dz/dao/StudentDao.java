@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * this is dao interdace which is implement by studentimpdao
+ * this is dao interface which is implement by student imp dao
  */
 public interface StudentDao {
 
@@ -14,7 +14,7 @@ public interface StudentDao {
 
     List<Student> display();
 
-    int deleteData(int stu_id);
+   void deleteData(Student student);
 
     boolean updateData(Student student);
 

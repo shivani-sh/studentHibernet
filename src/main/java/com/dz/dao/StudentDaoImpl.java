@@ -2,31 +2,29 @@ package com.dz.dao;
 
 import com.dz.model.Student;
 import com.dz.service.StudentServiceImpl;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.hibernate.*;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 @Transactional
 public class StudentDaoImpl implements StudentDao {
-    private final Logger log = LogManager.getLogger(StudentServiceImpl.class);
+    private final Logger logger = LogManager.getLogger(StudentServiceImpl.class);
 
-    private final JdbcTemplate jdbcTemplate;
+
+    private final SessionFactory sessionFactory;
 
     @Autowired
-    public StudentDaoImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public StudentDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     /**
@@ -37,10 +35,24 @@ public class StudentDaoImpl implements StudentDao {
      * @throws SQLException
      */
     @Override
-    public void addStudent(Student student) throws SQLException {
-        String query = "insert into STUDENT_DATA values ( '" + student.getId() + "','" + student.getName() + "','" + student.getAge() + "')";
+    public void addStudent(Student student) {
+        logger.info(student.getId() + "','" + student.getName() + "','" + student.getAge());
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.getTransaction();
+        try {
+            transaction.begin();
 
-        jdbcTemplate.update(query);
+            session.saveOrUpdate(student);
+
+            transaction.commit();
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        } finally {
+            session.close();
+        }
+        System.out.println("add data");
+        transaction.rollback();
+
 
     }
 
@@ -51,37 +63,48 @@ public class StudentDaoImpl implements StudentDao {
      */
     @Override
     public List<Student> display() {
-        return jdbcTemplate.query("select * from STUDENT_DATA", new ResultSetExtractor<List<Student>>() {
-            @Override
-            public List<Student> extractData(ResultSet rs) throws SQLException,
-                    DataAccessException {
+        try {
 
-                List<Student> studentList = new ArrayList<>();
+            Query query = sessionFactory.getCurrentSession().createQuery("From Student");
+            List<Student> studentList = query.list();
 
-                while (rs.next()) {
-                    Student student = new Student();
-                    student.setId(rs.getInt(1));
-                    student.setName(rs.getString(2));
-                    student.setAge(rs.getInt(3));
-                    studentList.add(student);
+            System.out.println("disply data");
+            return studentList;
 
-                }
-                return studentList;
+        } catch (HibernateException e) {
+            logger.error(e.getMessage(), e);
 
-            }
-        });
+        }
+
+
+        return null;
     }
+
 
     /**
      * In this we delete data
      *
-     * @param stu_id
+     * @param student
      * @return
      */
     @Override
-    public int deleteData(int stu_id) {
-        String query = ("DELETE FROM STUDENT_DATA where id=" + stu_id + ";");
-        return jdbcTemplate.update(query);
+    public void deleteData(Student student) {
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.getTransaction();
+        System.out.println("delete in student dao");
+        try {
+            transaction.begin();
+            session.delete(student);
+            transaction.commit();
+
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            session.close();
+        }
+
+        logger.info("come to delete");
+
     }
 
     /**
@@ -89,26 +112,52 @@ public class StudentDaoImpl implements StudentDao {
      *
      * @param student
      * @return
-    /* *//*
+     */
+
     @Override
     public boolean updateData(Student student) {
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.getTransaction();
+        logger.info("id from controller" + student.getId());
+        logger.info(student.getId() + "','" + student.getName() + "','" + student.getAge());
+        try {
+            transaction.begin();
 
-        String query = ("update STUDENT_DATA  set name=? ,age=? where id =?");
-        jdbcTemplate.update(query);
-        log.info("update");
-        return true;
-    }*/
-@Override
-    public boolean updateData(Student student) {
-        log.info("id from controller" + student.getId());
-        String sql = "update STUDENT_DATA set name='" + student.getName() + "',age=" + student.getAge() + " where ID=" + student.getId() + "";
-        log.info("message" + sql);
-        jdbcTemplate.update(sql);
+            session.saveOrUpdate(student);
+
+            transaction.commit();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            transaction.rollback();
+        } finally {
+            session.close();
+        }
         return true;
     }
+
+    /**
+     * get student by id
+     *
+     * @param id
+     * @return
+     */
     public Student getStudentById(int id) {
-        log.info("here is getStudentById");
-        return jdbcTemplate.queryForObject("SELECT * from STUDENT_DATA  WHERE id=? ", new Object[]{id}, new BeanPropertyRowMapper<>(Student.class));
+        logger.info("here is getStudentById");
+        Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Student.class);
+        try {
+
+            criteria.add(Restrictions.eq("id", id));
+            Student student = (Student) criteria.uniqueResult();
+            logger.info(student.getId() + "','" + student.getName() + "','" + student.getAge());
+            return student;
+
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+
+
+        return null;
+
     }
 
 }

@@ -13,7 +13,7 @@ public interface StudentService {
 
     List<Student> display();
 
-    int deletedata(int stu_id);
+   void deletedata(Student student);
 
     boolean updatedata(Student student);
 
